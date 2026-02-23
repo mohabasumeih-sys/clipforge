@@ -1,51 +1,102 @@
-[00:00:05.807] Server  LOG     
-[00:00:05.808] Server  LOG       We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
-[00:00:05.809] Server  LOG       The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
-
-[00:00:05.810] Server  LOG       	- include was updated to add 'dist/types/**/*.ts'
-[00:00:05.811] Server  LOG       	- include was updated to add 'dist/dev/types/**/*.ts'
-[00:00:05.811] Server  LOG     
-[00:00:06.506] Server  LOG     ✓ Ready in 4.9s
-[00:00:09.867] Server  LOG     ○ Compiling / ...
-[00:00:18.395] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:18.412] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:19.442] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
-[00:00:19.442] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
-[00:00:19.442] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
-[00:00:19.442] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
-[00:02:47.480] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+[00:00:05.882] Server  LOG     ✓ Ready in 4.5s
+[00:00:18.607] Server  LOG     ○ Compiling / ...
+[00:00:23.228] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:24.774] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
+[00:00:24.774] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
+[00:00:26.651] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
 The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
 (This notice only appears in development)
 
 (code="cannot_render_single_session_enabled")
 
 
-[00:36:50.679] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+[00:00:27.601] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
 The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
 (This notice only appears in development)
 
 (code="cannot_render_single_session_enabled")
 
 
-[01:11:39.928] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:12:01.133] Browser ERROR   ClerkRuntimeError: Clerk: Failed to load Clerk
+[00:00:28.032] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
 
-(code="failed_to_load_clerk_js_timeout")
-
-
-    at handleTimeout (http://localhost:3000/_next/static/chunks/node_modules_85d7f0c0._.js:9576:50)
-[01:12:30.105] Browser ERROR   unhandledRejection: ClerkRuntimeError: Clerk: Failed to load Clerk, failed to load script: https://hopeful-koala-44.clerk.accounts.dev/npm/@clerk/clerk-js@5/dist/clerk.browser.js
-
-(code="failed_to_load_clerk_js")
+(code="cannot_render_single_session_enabled")
 
 
-[01:12:49.879] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:12:50.109] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
-[01:12:50.109] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
-[01:16:00.510] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:16:00.762] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
-[01:16:00.762] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
-[01:16:16.205] Server  LOG     ○ Compiling /_not-found/page ...
-[01:16:18.500] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:16:18.627] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
-[01:16:18.627] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
+[00:00:28.264] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:00:28.482] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:04:16.644] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:16.905] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
+[00:04:16.905] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
+[00:05:26.234] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:26.477] Browser WARN    Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview
+[00:05:26.477] Browser WARN    Clerk: The prop "afterSignInUrl" is deprecated and should be replaced with the new "fallbackRedirectUrl" or "forceRedirectUrl" props instead. Learn more: https://clerk.com/docs/guides/custom-redirects#redirect-url-props
+[00:05:27.583] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:28.453] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:28.719] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:28.936] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:29.117] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:45.013] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:45.990] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
+[00:05:47.363] Browser ERROR   unhandledRejection: e: Clerk: 🔒 
+The SignIn or SignUp modals do not render when a user is already signed in, unless the application allows multiple sessions. Since a user is signed in and this application only allows a single session, this is no-op.
+(This notice only appears in development)
+
+(code="cannot_render_single_session_enabled")
+
+
