@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///C:/Projects/clipforge/clipforge/src/app/dashboard/page.tsx"],"sourcesContent":["export default function Dashboard() {\r\n  return (\r\n    <div style={{ background: 'black', color: 'white', padding: '20px' }}>\r\n      <h1>ClipForge Dashboard</h1>\r\n      <p>Welcome! Upload your first video to get started.</p>\r\n    </div>\r\n  );\r\n}"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,8OAAC;QAAI,OAAO;YAAE,YAAY;YAAS,OAAO;YAAS,SAAS;QAAO;;0BACjE,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;;;;;;;AAGT"}}]
+}
