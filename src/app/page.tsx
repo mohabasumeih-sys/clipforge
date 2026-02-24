@@ -1,7 +1,7 @@
-import { SignUpButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, Wand2, Download, Sparkles, Check } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -23,11 +23,11 @@ export default function Home() {
         </p>
         
         <div className="flex gap-4 justify-center mb-12">
-          <SignUpButton mode="modal">
+          <Link href="/sign-up">
             <Button size="lg" className="bg-white text-black hover:bg-zinc-200">
               Start Free Trial
             </Button>
-          </SignUpButton>
+          </Link>
           <Button size="lg" variant="outline" className="border-zinc-700">
             Watch Demo
           </Button>
@@ -84,9 +84,9 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> 2 platforms</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> Basic captions</li>
               </ul>
-              <SignUpButton mode="modal">
+              <Link href="/sign-up" className="w-full block">
                 <Button className="w-full" variant="outline">Get Started</Button>
-              </SignUpButton>
+              </Link>
             </CardContent>
           </Card>
           
@@ -105,9 +105,9 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> AI-generated hooks</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> Priority processing</li>
               </ul>
-              <SignUpButton mode="modal">
+              <Link href="/sign-up" className="w-full block">
                 <Button className="w-full bg-white text-black hover:bg-zinc-200">Get Started</Button>
-              </SignUpButton>
+              </Link>
             </CardContent>
           </Card>
           
@@ -122,9 +122,9 @@ export default function Home() {
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> API access</li>
                 <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> Dedicated support</li>
               </ul>
-              <SignUpButton mode="modal">
+              <Link href="/sign-up" className="w-full block">
                 <Button className="w-full" variant="outline">Contact Sales</Button>
-              </SignUpButton>
+              </Link>
             </CardContent>
           </Card>
         </div>
