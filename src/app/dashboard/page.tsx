@@ -29,8 +29,6 @@ export default function Dashboard() {
   const processVideo = async (videoId: string) => {
     setProcessing(videoId);
     
-    // For now, use a dummy transcript
-    // Later we'll get this from Whisper API
     const dummyTranscript = `
     Welcome to the show! Today we're talking about how to grow on social media.
     The first tip is to post consistently. Many creators give up after 2 weeks.
@@ -113,6 +111,51 @@ export default function Dashboard() {
                     </button>
                   )}
                 </div>
+                
+                {/* Show clips with download links */}
+                {video.clips && video.clips.length > 0 && (
+                  <div style={{ marginTop: '20px', borderTop: '1px solid #333', paddingTop: '15px' }}>
+                    <h4 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>Generated Clips:</h4>
+                    <div style={{ display: 'grid', gap: '10px' }}>
+                      {video.clips.map((clip: any, index: number) => (
+                        <div key={index} style={{ 
+                          padding: '10px', 
+                          background: '#222', 
+                          borderRadius: '4px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+                          <div>
+                            <p style={{ margin: 0, fontWeight: 'bold' }}>{clip.hook || `Clip ${index + 1}`}</p>
+                            <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#888' }}>
+                              {Math.floor(clip.start / 60)}:{String(clip.start % 60).padStart(2, '0')} - {Math.floor(clip.end / 60)}:{String(clip.end % 60).padStart(2, '0')}
+                            </p>
+                          </div>
+                          {clip.url ? (
+                            <a 
+                              href={clip.url} 
+                              download
+                              style={{
+                                padding: '8px 16px',
+                                background: '#4ade80',
+                                color: 'black',
+                                textDecoration: 'none',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              Download
+                            </a>
+                          ) : (
+                            <span style={{ color: '#666', fontSize: '12px' }}>Processing...</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
