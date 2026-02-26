@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server';
-import { uploadToS3 } from '@/lib/s3';
-import { queueVideoProcessing } from '@/lib/sqs';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { supabase } from '@/lib/supabase';
+
+const s3 = new S3Client({
+  region: process.env.REGION!,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+  }
+});
 
 export async function POST(request: Request) {
   try {
@@ -14,21 +21,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing data' }, { status: 400 });
     }
     
-    // Upload to S3
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const s3Key = `uploads/${userId}/${videoId}/${file.name}`;
     
-    await uploadToS3(buffer, s3Key);
+    await s3.send(new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET_NAME!,
+      Key: s3Key,
+      Body: buffer,
+      ContentType: file.type
+    }));
     
-    // Update database
     await supabase.from('videos').update({
       status: 'uploaded',
       s3_key: s3Key
     }).eq('id', videoId);
-    
-    // Queue for processing (after AI generates clips)
-    // This happens after your Groq API call
     
     return NextResponse.json({ success: true, s3Key });
     

@@ -1,56 +1,66 @@
-import { NextResponse } from 'next/server'
-import { processVideoWithAI } from '@/lib/ai-processor'
-import { supabase } from '@/lib/supabase'
+import { NextResponse } from 'next/server';
+import { processVideoWithAI } from '@/lib/ai-processor';
+import { supabase } from '@/lib/supabase';
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
+
+const sqs = new SQSClient({
+  region: process.env.REGION!,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+  }
+});
 
 export async function POST(request: Request) {
   try {
-    const { videoId, transcript } = await request.json()
+    const { videoId, transcript } = await request.json();
     
-    if (!videoId || !transcript) {
-      return NextResponse.json(
-        { error: 'Missing videoId or transcript' },
-        { status: 400 }
-      )
+    const { data: video } = await supabase
+      .from('videos')
+      .select('*')
+      .eq('id', videoId)
+      .single();
+    
+    if (!video) {
+      return NextResponse.json({ error: 'Video not found' }, { status: 404 });
     }
-    
-    // Process with Gemini
-    const result = await processVideoWithAI('video', transcript)
+
+    const result = await processVideoWithAI(video.filename, transcript);
     
     if (!result.success) {
-      return NextResponse.json(
-        { error: result.error },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: result.error }, { status: 500 });
     }
-    
-    // Save results to database
-    const { error: updateError } = await supabase
+
+    await supabase
       .from('videos')
       .update({
         transcript: transcript,
         clips: result.clips,
-        processed_at: new Date().toISOString(),
-        status: 'processed'
+        status: 'processing'
       })
-      .eq('id', videoId)
-    
-    if (updateError) {
-      return NextResponse.json(
-        { error: updateError.message },
-        { status: 500 }
-      )
-    }
-    
+      .eq('id', videoId);
+
+    await sqs.send(new SendMessageCommand({
+      QueueUrl: process.env.SQS_QUEUE_URL!,
+      MessageBody: JSON.stringify({
+        videoId,
+        userId: video.user_id,
+        filename: video.filename,
+        clips: result.clips
+      })
+    }));
+
     return NextResponse.json({
       success: true,
-      clips: result.clips
-    })
+      clips: result.clips,
+      message: 'Video queued for processing'
+    });
     
   } catch (error) {
-    console.error('Process API error:', error)
+    console.error('Process error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
-    )
+    );
   }
 }
