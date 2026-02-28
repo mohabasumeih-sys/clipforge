@@ -3,12 +3,9 @@ import { processVideoWithAI } from '@/lib/ai-processor';
 import { supabase } from '@/lib/supabase';
 import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
+// Using REGION as requested (not AWS_REGION)
 const sqs = new SQSClient({
-  region: process.env.REGION!,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
-  }
+  region: process.env.REGION || 'ap-southeast-2',
 });
 
 export async function POST(request: Request) {
