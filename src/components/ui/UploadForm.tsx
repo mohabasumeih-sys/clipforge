@@ -1,5 +1,4 @@
 'use client'
-
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@clerk/nextjs'
@@ -16,58 +15,71 @@ export default function UploadForm() {
   }
 
   const handleUpload = async () => {
-    if (!file) return
-    if (!user) {
-      alert('Please sign in first')
-      return
-    }
-
+    if (!file || !user) return
     setUploading(true)
 
-    const { data, error } = await supabase
-      .from('videos')
-      .insert([
-        { 
-          filename: file.name, 
-          status: 'pending',
-          user_id: user.id
-        }
-      ])
-      .select()
+    try {
+      // Step 1: Create video record in Supabase
+      const { data, error } = await supabase
+        .from('videos')
+        .insert([{ filename: file.name, status: 'pending', user_id: user.id }])
+        .select()
+
+      if (error || !data) {
+        alert('Error creating record: ' + error?.message)
+        setUploading(false)
+        return
+      }
+
+      const videoId = data[0].id
+
+      // Step 2: Upload file to S3 via API
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('userId', user.id)
+      formData.append('videoId', videoId)
+
+      const uploadResponse = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      })
+
+      const uploadResult = await uploadResponse.json()
+
+      if (!uploadResponse.ok) {
+        alert('S3 upload failed: ' + uploadResult.error)
+        setUploading(false)
+        return
+      }
+
+      alert('Video uploaded successfully! You can now click "Process with AI"')
+      setFile(null)
+
+    } catch (error) {
+      alert('Upload failed: ' + error)
+    }
 
     setUploading(false)
-
-    if (error) {
-      alert('Error: ' + error.message)
-      console.error(error)
-    } else {
-      alert('Video saved! ID: ' + data[0].id)
-      setFile(null)
-    }
   }
 
   return (
     <div style={{ marginTop: '20px' }}>
-      <input 
-        type="file" 
-        accept="video/*" 
-        onChange={handleFile}
-      />
+      <input type="file" accept="video/*" onChange={handleFile} />
       {file && (
         <div style={{ marginTop: '10px' }}>
           <p>Selected: {file.name}</p>
-          <button 
+          <button
             onClick={handleUpload}
             disabled={uploading}
-            style={{ 
-              padding: '10px 20px', 
-              background: 'white', 
+            style={{
+              padding: '10px 20px',
+              background: 'white',
               color: 'black',
               border: 'none',
               cursor: 'pointer'
             }}
           >
-            {uploading ? 'Saving...' : 'Upload Video'}
+            {uploading ? 'Uploading to S3...' : 'Upload Video'}
           </button>
         </div>
       )}
