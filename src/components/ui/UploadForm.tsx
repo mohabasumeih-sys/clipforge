@@ -7,16 +7,16 @@ export default function UploadForm() {
   const { user } = useUser()
   const [file, setFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [progress, setProgress] = useState('')
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setFile(e.target.files[0])
-    }
+    if (e.target.files?.[0]) setFile(e.target.files[0])
   }
 
   const handleUpload = async () => {
     if (!file || !user) return
     setUploading(true)
+    setProgress('Creating record...')
 
     try {
       // Step 1: Create video record in Supabase
@@ -26,34 +26,57 @@ export default function UploadForm() {
         .select()
 
       if (error || !data) {
-        alert('Error creating record: ' + error?.message)
+        alert('Error: ' + error?.message)
         setUploading(false)
         return
       }
 
       const videoId = data[0].id
+      setProgress('Getting upload URL...')
 
-      // Step 2: Upload file to S3 via API
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('userId', user.id)
-      formData.append('videoId', videoId)
-
-      const uploadResponse = await fetch('/api/upload', {
+      // Step 2: Get presigned URL from our API
+      const response = await fetch('/api/upload', {
         method: 'POST',
-        body: formData
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          videoId,
+          filename: file.name,
+          contentType: file.type || 'video/mp4'
+        })
       })
 
-      const uploadResult = await uploadResponse.json()
+      const { presignedUrl, error: urlError } = await response.json()
 
-      if (!uploadResponse.ok) {
-        alert('S3 upload failed: ' + uploadResult.error)
+      if (urlError || !presignedUrl) {
+        alert('Failed to get upload URL: ' + urlError)
         setUploading(false)
         return
       }
 
-      alert('Video uploaded successfully! You can now click "Process with AI"')
+      setProgress('Uploading to S3...')
+
+      // Step 3: Upload directly to S3 using presigned URL
+      const uploadResponse = await fetch(presignedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': file.type || 'video/mp4' }
+      })
+
+      if (!uploadResponse.ok) {
+        alert('S3 upload failed')
+        setUploading(false)
+        return
+      }
+
+      // Step 4: Mark as uploaded in Supabase
+      await supabase.from('videos')
+        .update({ status: 'uploaded' })
+        .eq('id', videoId)
+
+      setProgress('')
       setFile(null)
+      alert('Video uploaded successfully! Click "Process with AI" to generate clips.')
 
     } catch (error) {
       alert('Upload failed: ' + error)
@@ -67,19 +90,20 @@ export default function UploadForm() {
       <input type="file" accept="video/*" onChange={handleFile} />
       {file && (
         <div style={{ marginTop: '10px' }}>
-          <p>Selected: {file.name}</p>
+          <p>Selected: {file.name} ({(file.size / 1024 / 1024).toFixed(1)}MB)</p>
           <button
             onClick={handleUpload}
             disabled={uploading}
             style={{
               padding: '10px 20px',
-              background: 'white',
+              background: uploading ? '#666' : 'white',
               color: 'black',
               border: 'none',
-              cursor: 'pointer'
+              cursor: uploading ? 'not-allowed' : 'pointer',
+              borderRadius: '4px'
             }}
           >
-            {uploading ? 'Uploading to S3...' : 'Upload Video'}
+            {uploading ? progress || 'Uploading...' : 'Upload Video'}
           </button>
         </div>
       )}
